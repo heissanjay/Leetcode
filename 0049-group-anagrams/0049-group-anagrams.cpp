@@ -6,11 +6,11 @@ public:
         
         for (const auto& str : strs) {
             long long hash = calculateHash(str);
-            mapp[hash].push_back(str);
+            mapp[hash].emplace_back(str);
         }
         
-        for (const auto& entry : mapp) {
-            result.push_back(entry.second);
+        for (auto& entry : mapp) {
+            result.emplace_back(move(entry.second));
         }
         
         return result;
