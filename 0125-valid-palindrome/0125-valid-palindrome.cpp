@@ -1,6 +1,5 @@
 class Solution {
 private:
-    // some helper functions to filter the chars
     
     bool isUpperCaseAlpha (char c) {
         return (c >= 'A' && c <= 'Z');
