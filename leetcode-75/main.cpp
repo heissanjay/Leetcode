@@ -450,12 +450,106 @@ return ans;
         }
         return res;
     }
+    int longestSubarray(vector<int>& nums) {
+        int n = nums.size();
+        int cnt = 0;
+        int res = 0;
+
+        int start = 0;
+        for (int i = 0; i < nums.size(); i++) {
+            cnt += (nums[i] == 0);
+
+            while (cnt > 1) {
+                cnt -= (nums[start] == 0);
+                start++;
+            }
+
+            res = max(res, i - start);
+
+        }
+
+        return res;
+
+    }
+    int maxOperations(vector<int>& nums, int k) {
+        sort(nums.begin(), nums.end());
+        int i = 0;
+        int j = nums.size();
+        int res = 0;
+        while (i < j ) {
+            if (nums[i] + nums[j] == k) {
+                res++;
+                ++i;
+                --j;
+            }
+            else if(nums[i] + nums[j] > k) {
+                --j;
+            } else {
+                ++i;
+            }
+        }
+
+        return res;
+    }
+    int compress(vector<char>& chars) {
+        int k = 0;
+        int n = chars.size();
+        for (int i = 0, j = i + 1; i < n;) {
+            while (j < n && chars[i] == chars[j] ) {
+                j++;
+            }
+
+            chars[k++] = chars[i];
+
+            int run_len = j - i;
+
+            if (run_len > 1) {
+                for (char charCount: to_string(run_len)) {
+                    chars[k++] = charCount;
+                }
+            }
+
+            i = j;
+        }
+        return k;
+    }
+    int pivotIndex(vector<int>& nums) {
+        int start = 0;
+        int last = accumulate(nums.begin(), nums.end(),0);
+
+        for(int i =0; i < nums.size(); ++i) {
+            last -= nums[i];
+
+            if (start == last) {
+                return i;
+            }
+
+            start += nums[i];
+        }
+        return -1;
+    }
+    int maxFrequencyElements(vector<int>& nums) {
+            unordered_map<int,int> mapp;
+            int maxFreq = 0;
+            for (auto const& num: nums) {
+                mapp[num]++;
+                maxFreq = max(maxFreq, mapp[num]);
+            }
+
+            int cnt {0};
+
+            for (auto const& it: mapp)
+                if (it.second == maxFreq)
+                    cnt += it.second;
+
+            return cnt;
+
+    }
 };
 
 int main() {
     Solution* sol = new Solution();
-    vector<int> nums {1,1,0,1};
-    int k = 0;
-    cout << sol->longestOnes(nums);
+    vector<int> nums = {1,2,2,3,1,4};
+    cout << sol->maxFrequencyElements(nums);
     return 0;
 }
